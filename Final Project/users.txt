@@ -1,0 +1,5 @@
+EventUser
+EventProject
+0.0.0.0/0 ip
+mongodb+srv://<db_username>:<db_password>@cluster0.t7vtjiv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
