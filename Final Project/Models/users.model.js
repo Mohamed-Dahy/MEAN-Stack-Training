@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-
+const bcrypt = require("bcryptjs");
 
 
 const userSchema = new mongoose.Schema({
@@ -28,8 +28,7 @@ const userSchema = new mongoose.Schema({
     password: {
     type: String,
     required: [true, "Password is required"],
-    minlength: [8, "Password must be at least 8 characters"],
-    select: false,
+    minlength: [8, "Password must be at least 8 characters"]
     },
 
     username: {
@@ -40,11 +39,18 @@ const userSchema = new mongoose.Schema({
     maxlength: [30, "Username cannot exceed 30 characters"],
     minlength: [3, "Username must be at least 3 characters"]
     },
-    photo: { type: String },
+    photo: { type: String, default:'uploads/profile.jpg' },
     favEvents :[{type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
+    bookedtickets :[{type: mongoose.Schema.Types.ObjectId, ref: "Ticket"}],
+    myqrcodes: [{ type: String}],
 
   }
 );
+userSchema.pre("save",async function(next) {
+   if(!this.isModified("password")) return next(); // if I changed password then hash it
+      this.password = await bcrypt.hash(this.password, 10);
+      next();
+})
 
 const User = mongoose.model("User", userSchema);
 
