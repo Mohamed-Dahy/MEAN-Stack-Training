@@ -5,14 +5,13 @@ const router = express.Router();
 // Route: /events
 router
   .route("/events")
-  .post(eventControllers.createEvent)
-  .get(eventControllers.getAllEvents);
+  .get(eventControllers.getAllEvents);//worked
 
 // Route: /events/:id
 router
   .route("/events/:id")
-  .get(eventControllers.getEventById)
-  .patch(eventControllers.updateEvent)
-  .delete(eventControllers.deleteEvent);
+  .get(eventControllers.getEventById) //worked
 
+
+  router.get("/category",eventControllers.searchbycategory);//worked
 module.exports = router;
