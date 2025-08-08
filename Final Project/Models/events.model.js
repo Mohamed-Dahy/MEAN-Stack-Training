@@ -49,11 +49,11 @@ const EventSchema = new mongoose.Schema({
       },
       imageurl : {
         type: String,
-        required: [true, "Image URL is required"]
+        // required: [true, "Image URL is required"]
       },
       createdby : {
         type: String,
-        required: [true, "Created by is required"],
+        // required: [true, "Created by is required"],
         trim: true
       },
       createdat : {
