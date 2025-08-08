@@ -219,7 +219,23 @@ const deleteEvent = async (req, res) => {
     res.status(500).json({ status: "Fail", message: error.message });
   }
 };
-
+// see every user who booked an event
+const getBookedUsers = async (req, res) => {
+  const {eventid} = req.body;
+  try {
+    const event = await Event.findById(eventid);
+    if (!event) {
+      return res.status(404).json({ status: "Fail", message: "Event not found" });
+    }
+    res.status(200).json({
+      status: "Success",
+      data: { bookedUsers: event.bookedusers },
+    });
+  } catch (error) {
+    res.status(500).json({ status: "Fail", message: error.message });
+  }
+ 
+}
 
 module.exports = {
   signup,
@@ -231,4 +247,5 @@ module.exports = {
   deleteEvent,
   getuserbyid,
   deleteuserbyid,
+  getBookedUsers
 };
