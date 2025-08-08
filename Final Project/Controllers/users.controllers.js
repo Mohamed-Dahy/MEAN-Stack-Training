@@ -192,7 +192,9 @@ const bookevent = async (req,res)=>{
       photo: event.imageurl
     });
     event.availableseats -= 1;
+    event.bookedusers.push(userId);
     await event.save();
+
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ status: "fail", message: "User not found" });
@@ -257,6 +259,7 @@ const cancelbooking = async (req,res)=>{
           return res.status(404).json({ status: "fail", message: "Event not found" });
         }
         event.availableseats += 1;
+        event.bookedusers = event.bookedusers.filter(id => id.toString() !== userId);
         await event.save();
         await Ticket.findByIdAndDelete(ticketid);
         res.status(200).json({ status: "success", message: "Booking cancelled successfully" });
