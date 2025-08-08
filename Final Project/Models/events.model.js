@@ -58,7 +58,13 @@ const EventSchema = new mongoose.Schema({
       },
       createdat : {
         type: Date,
-      }});
+      },
+      bookedusers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }],
+    
+    });
 
 const Event = mongoose.model("Event", EventSchema);
 
