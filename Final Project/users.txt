@@ -3,3 +3,38 @@ EventProject
 0.0.0.0/0 ip
 mongodb+srv://<db_username>:<db_password>@cluster0.t7vtjiv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
+/////////////////////////////////////////// postman user////////////////
+
+{
+  "Fisrtname": "Mohamed",
+  "Lastname": "Dahy",
+  "email": "mohamed.dahy@example.com",
+  "password": "StrongPass123",
+  "confirmpassword : "StrongPass123",
+  "username": "mohdahy"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTE1
+      NTAyMDM5OWFkODBjY2IxMjk5NyIsInVzZXJuYW1lIjoibW9oZGFoIiwiaWF0IjoxNzU0MzU0OTQ2LCJle
+      HAiOjE3NTQzNTg1NDZ9.JJjHS5YfJEJHG7uVg5dvq-AY0eXEaO7ZArGSMZ5mBXM"
+}
+688eb2bbe8f23e17ea3023cd
+
+
+// postman admin//////////////////////////////////////////////////////////////////////////////
+
+{
+    "status": "Success",
+    "data": {
+        "user": {
+            "Fisrtname": "Ahmed",
+            "Lastname": "elsayed",
+            "email": "elsayed@gmail.com",
+            "password": "$2b$10$V.OmGBNeXHelFMWNLtHA6uHvDPCpu8sTK9y.BdbfoEh5Df6.M35Wu",
+            "password" : 119200444
+            "username": "adminelsayed",
+            "photo": "user-1754413756457.jpeg",
+            "_id": "68923abc593b22f0ebc9ec79",
+            "__v": 0
+        }
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTIzYWJjNTkzYjIyZjBlYmM5ZWM3OSIsInVzZXJuYW1lIjoiYWRtaW5lbHNheWVkIiwiaWF0IjoxNzU0NDEzNzU2LCJleHAiOjE3NTQ0MTczNTZ9.h6-PvqoVS679Aqq01baEGXsWqYIF4eLQ27aan7Yskww"
+}
