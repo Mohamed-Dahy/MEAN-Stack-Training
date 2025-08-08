@@ -14,5 +14,6 @@ router.delete("/adminprofile/deleteEvent/:id", admincontroller.protectRoutes, ad
 router.get("/adminprofile/users", admincontroller.protectRoutes, admincontroller.getAllUsers); // worked
 router.get("/adminprofile/user/:id", admincontroller.protectRoutes, admincontroller.getuserbyid); // worked
 router.delete("/adminprofile/user/:id", admincontroller.protectRoutes, admincontroller.deleteuserbyid); // worked
+router.get("/adminprofile/bookedUsers", admincontroller.protectRoutes, admincontroller.getBookedUsers); // worked
 
 module.exports = router;
