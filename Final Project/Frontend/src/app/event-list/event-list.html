@@ -1,0 +1,10 @@
+<button (click)="bookEvent()">book event</button>
+<!-- Show booked tickets if any -->
+<div *ngIf="bookedTickets.length > 0">
+  <h3>Booked Tickets:</h3>
+  <ul>
+    <li *ngFor="let ticket of bookedTickets">
+      {{ ticket}}
+    </li>
+  </ul>
+</div>
