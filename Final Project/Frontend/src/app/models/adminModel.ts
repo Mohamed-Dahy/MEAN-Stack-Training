@@ -1,5 +1,5 @@
-export class Usermodel{
-    constructor(
+export class AdminModel{
+      constructor(
         public email : string,
         public _id : string ,
         private _token : string,
@@ -12,5 +12,5 @@ export class Usermodel{
     }
     return this._token
 }
-
+        
 }
