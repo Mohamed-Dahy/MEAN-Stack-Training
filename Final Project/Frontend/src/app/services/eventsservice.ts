@@ -42,13 +42,6 @@ geteventByCategory(category :string) : Observable<EventModel[]> {
   );
 }
 
-// addevent(event : EventModel) : Observable<Event>{
-//   return this.http.post<any>(this.url2,event).pipe(
-//     map((response)=>{
-//      return  response.data.event
-//     })
-//   )
-// }
 
 
 
