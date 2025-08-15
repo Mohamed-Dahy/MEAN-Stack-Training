@@ -11,6 +11,7 @@ import {Usermodel } from '../models/usermodel';
 export class AuthService {
   private http = inject(HttpClient)
   private url = 'http://localhost:5000/Eventora/login';
+  private url2 = 'http://localhost:5000/Eventora/loginasAdmin';
    user = new BehaviorSubject<Usermodel | null>(null)
 
   login(email : string , password : string){
@@ -18,7 +19,7 @@ export class AuthService {
       map((response)=>{
         if(response.token){
           const decoded = jwtDecode<any>(response.token);
-          const expirationdate = new Date(decoded.expiresIn * 1000);
+          const expirationdate = new Date(decoded.exp * 1000); // Convert seconds to milliseconds
           const loggeduser =new Usermodel(decoded.email , 
             decoded.id,
             response.token,
@@ -26,6 +27,7 @@ export class AuthService {
           )
 
           this.user.next(loggeduser);
+          localStorage.setItem('userdata', JSON.stringify(loggeduser));
           return response.data.user;
         }else {
           throw new Error("token not found");
@@ -35,6 +37,51 @@ export class AuthService {
       }),
       catchError(this.handleerror)
     )
+  }
+  loginAsAdmin(email: string, password: string) {
+    return this.http.post<any>(`${this.url2}`, { email, password }).pipe(
+      map((response) => {
+        if (response.token) {
+          const decoded = jwtDecode<any>(response.token);
+          const expirationdate = new Date(decoded.exp * 1000); // Convert seconds to milliseconds
+          const loggeduser = new Usermodel(
+            decoded.email,
+            decoded.id,
+            response.token,
+            expirationdate
+          );
+
+          this.user.next(loggeduser);
+          localStorage.setItem('userdata', JSON.stringify(loggeduser));
+          return response.data.user;
+        } else {
+          throw new Error("token not found");
+        }
+      }),
+      catchError(this.handleerror)
+    );
+  }
+
+   autoLogin() { 
+    const userDataString = localStorage.getItem('userdata');
+    if (!userDataString) return;
+
+    const userData = JSON.parse(userDataString);
+    const loadedUser = new Usermodel(
+      userData.email,
+      userData._id,
+      userData._token,
+      new Date(userData.expiresIn)
+    );
+
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+    }
+  }
+
+  logout(){
+    this.user.next(null);
+    localStorage.removeItem('userdata');
   }
 
   
