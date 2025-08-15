@@ -1,6 +1,24 @@
-<button type="button" (click)="onlogin()">Login</button>
+<!-- template driven form -->
+<section class="container" [class.toutched-form]="loginform.touched">
+  <header>Login to Eventora</header>
+ 
+  <form class="form"  #loginform="ngForm" (ngSubmit)="onsubmit()" > 
+    <div class="input-box">
+      <input type="email" placeholder="Email Address" name="email" required ngModel />
+    </div> 
+    <div class="column">
+      <div class="input-box">
+        <input type="password" name="password" placeholder="Password" required ngModel>
+      </div>
+    </div>
+     <div class="column">
+      <div class="input-box">
+       <button type="button" class="btnautofill" (click)="setAutofill()">Autofill</button>
+      </div>
+    </div>
 
-<p *ngIf="iserror" class="error">{{errormsg}}</p> 
-<!-- ...existing code... -->
-<p *ngIf="token">Token: {{token}}</p>
-<!-- ...existing code... -->
+   
+    <input type="submit" value="Login" class="submit-btn" [disabled]="loginform.invalid" 
+    [style.backgroundcolor]="" />
+  </form>
+</section>
