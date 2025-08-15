@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 export class EventList  implements OnInit {
   events : Event[] = [];
   private eventservice = inject(Eventservice);
-  private userservice = inject(UserService);
+
   bookedTickets: any[] = [];
 
   ngOnInit(): void {
@@ -52,20 +52,6 @@ loadeventByCategory(category: string = "Other") {
   })
 }
 
-
-
-bookEvent(eventid: string = "689158026edbd9df0f5065d8") {
-  this.userservice.bookevent(eventid).subscribe({
-    next: (ticket) => {
-      this.bookedTickets.push(ticket);
-      console.log('Event booked successfully your tickets :', this.bookedTickets);
-    },
-    error: (err) => {
-      console.error('Error booking event:', err);
-    }
-  });
-
-
 }
 
 
@@ -96,4 +82,4 @@ bookEvent(eventid: string = "689158026edbd9df0f5065d8") {
 //   }
 //  })
 // }
-}
+
