@@ -11,40 +11,26 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrl: './login.css'
 })
 export class Login {  
+  loading = false
+  serverError = ''
 private authService = inject(AuthService)
 iserror = false
 errormsg =''
 token = ''
 @ViewChild("loginform") loginform !: NgForm
-setAutofill() {
-  this.loginform.form.patchValue({
-    email: 'elsayed@gmail.com',
-    password: '119200444'
-  });
-}
-onsubmit() {
-this.authService.loginAsAdmin(this.loginform.value.email, this.loginform.value.password).subscribe({
+onsubmit() {    
+this.authService.login(this.loginform.value.email, this.loginform.value.password).subscribe({
       next: (token) => {
         console.log(token);
+        this.loading = false;
         // clear the form after successful login
         this.loginform.reset();
+        
       },
       error: (error) => {
         console.log(error)
       }
-})
-}
-
-
-
-
-// addeventtofav(eventid :string = '689158026edbd9df0f5065d8'){
-// this.useerservice.addeventtofav(eventid).subscribe({
-//   next : (data)=>{
-//     console.log(data);
-//   }
-// })
-// }
-
+    });
+  }
 
 }
