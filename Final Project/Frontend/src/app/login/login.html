@@ -1,24 +1,43 @@
-<!-- template driven form -->
-<section class="container" [class.toutched-form]="loginform.touched">
-  <header>Login to Eventora</header>
- 
-  <form class="form"  #loginform="ngForm" (ngSubmit)="onsubmit()" > 
-    <div class="input-box">
-      <input type="email" placeholder="Email Address" name="email" required ngModel />
-    </div> 
-    <div class="column">
-      <div class="input-box">
-        <input type="password" name="password" placeholder="Password" required ngModel>
-      </div>
-    </div>
-     <div class="column">
-      <div class="input-box">
-       <button type="button" class="btnautofill" (click)="setAutofill()">Autofill</button>
-      </div>
+<section class="card">
+  <h2>Login</h2>
+
+  <form #loginform="ngForm" (ngSubmit)="onsubmit()">
+    <div class="field">
+      <label>Email</label>
+      <input
+        type="email"
+        name="email"
+        ngModel
+        required
+        email
+        #emailRef="ngModel"
+      />
+      @if (emailRef.invalid && emailRef.touched) {
+      <p class="error">Valid email is required</p>
+      }
     </div>
 
-   
-    <input type="submit" value="Login" class="submit-btn" [disabled]="loginform.invalid" 
-    [style.backgroundcolor]="" />
+    <div class="field">
+      <label>Password</label>
+      <input
+        type="password"
+        name="password"
+        ngModel
+        required
+        minlength="8"
+        #passwordRef="ngModel"
+      />
+      @if (passwordRef.invalid && passwordRef.touched) {
+      <p class="error">Password is required with minimum length 8</p>
+      }
+    </div>
+
+    <button type="submit" [disabled]="loginform.invalid || loading">
+      {{ loading ? 'Signing in...' : 'Login' }}
+    </button>
+
+    @if (serverError) {
+    <p class="server-error">{{ serverError }}</p>
+    }
   </form>
 </section>
