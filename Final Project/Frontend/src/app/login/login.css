@@ -1,108 +1,55 @@
-/* Container styling */
-.container {
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 25px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
-  font-family: "Segoe UI", Tahoma, sans-serif;
+.card {
+  max-width: 420px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
 }
-
-/* Header text */
-.container header {
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
 }
-
-/* Form */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.field {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
 }
-
-/* Input box container */
-.input-box {
-  display: flex;
-  flex-direction: column;
+label {
+  font-size: 0.9rem;
+  color: #374151;
 }
-
-/* Inputs */
-.input-box input[type="email"],
-.input-box input[type="password"],
-.input-box input[type="submit"] {
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
+input {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
 }
-
-/* Autofill button */
-.input-box input[value="Autofill"] {
-  background: #f0f0f0;
-  border: 1px solid #ccc;
-  cursor: pointer;
+input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
-
-.input-box input[value="Autofill"]:hover {
-  background: #e0e0e0;
-}
-
-/* Columns (side by side if needed) */
-.column {
-  display: flex;
-  gap: 10px;
-}
-
-/* Login button */
-.submit-btn {
-background: #6a5acd;
-  color: #fff;
-  padding: 10px 14px;
+button {
+  width: 100%;
+  padding: 0.7rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
+  background: #6366f1;
+  color: #fff;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.3s ease;
 }
-
-.submit-btn:hover:not(:disabled) {
-  background: #5848b8;
-}
-
-/* Disabled login button */
-.submit-btn:disabled {
-  background: #ccc;
+button[disabled] {
+  opacity: 0.6;
   cursor: not-allowed;
 }
-
-/* Touched form visual indicator */
-.toutched-form {
-  border: 1px solid #6a5acd;
-  padding: 20px;
+.error {
+  color: #b91c1c;
+  font-size: 0.8rem;
 }
-
-/* Focus styles */
-input:focus {
-  outline: none;
-  border-color: #6a5acd;
-  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2);
-}
-
-
-
-.btnautofill {
-  background: #6a5acd;
-  color: #fff;
-  padding: 10px 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.3s ease;
+.server-error {
+  margin-top: 0.75rem;
+  color: #b91c1c;
+  font-size: 0.9rem;
+  text-align: center;
 }
