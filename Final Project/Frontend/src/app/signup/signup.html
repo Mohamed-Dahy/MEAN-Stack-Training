@@ -1,0 +1,115 @@
+<section class="card">
+  <h2>Sign Up</h2>
+
+  <form #signUpForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="field">
+      <label>First Name</label>
+      <input
+        type="text"
+        name="Firstname"
+        ngModel
+        required
+        minlength="3"
+        #nameRef="ngModel"
+      />
+      @if (nameRef.invalid && nameRef.touched) {
+      <p class="error">Name is required with minimum length 3</p>
+      }
+    </div>
+     <div class="field">
+      <label>Last Name</label>
+      <input
+        type="text"
+        name="Lastname"
+        ngModel
+        required
+        minlength="3"
+        #nameRef="ngModel"
+      />
+      @if (nameRef.invalid && nameRef.touched) {
+      <p class="error">Name is required with minimum length 3</p>
+      }
+    </div>
+       <div class="field">
+      <label>UserName</label>
+      <input
+        type="text"
+        name="username"
+        ngModel
+        required
+        minlength="3"
+        #nameRef="ngModel"
+      />
+      @if (nameRef.invalid && nameRef.touched) {
+      <p class="error">Name is required with minimum length 3</p>
+      }
+    </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input
+        type="email"
+        name="email"
+        ngModel
+        required
+        email
+        #emailRef="ngModel"
+      />
+      @if (emailRef.invalid && emailRef.touched) {
+      <p class="error">Valid email is required</p>
+      }
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input
+        type="password"
+        name="password"
+        ngModel
+        required
+        minlength="8"
+        #passwordRef="ngModel"
+      />
+      @if (passwordRef.invalid && passwordRef.touched) {
+      <p class="error">Password is required with minimum length 8</p>
+      }
+    </div>
+
+    <div class="field">
+      <label>Confirm Password</label>
+      <input
+        type="password"
+        name="confirmpassword"
+        ngModel
+        required
+        minlength="8"
+        #confirmRef="ngModel"
+      />
+      @if (confirmRef.invalid && confirmRef.touched) {
+      <p class="error">Confirm your password</p>
+      } @if (passwordMismatch) {
+      <p class="error">Passwords do not match</p>
+      }
+    </div>
+
+    <div class="field">
+      <label>Photo</label>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      @if (!selectedFileName) {
+      <p class="hint">No file chosen</p>
+      } @if (selectedFileName) {
+      <p class="hint">{{ selectedFileName }}</p>
+      }
+    </div>
+
+    <button type="submit" [disabled]="signUpForm.invalid || loading">
+      {{ loading ? "Creating..." : "Create Account" }}
+    </button>
+
+    @if (serverError) {
+    <p class="server-error">{{ serverError }}</p>
+    } @if (serverSuccess) {
+    <p class="server-success">{{ serverSuccess }}</p>
+    }
+  </form>
+</section>
