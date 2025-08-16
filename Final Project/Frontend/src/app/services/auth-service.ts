@@ -12,6 +12,7 @@ export class AuthService {
   private http = inject(HttpClient)
   private url = 'http://localhost:5000/Eventora/login';
   private url2 = 'http://localhost:5000/Eventora/loginasAdmin';
+  private url3 = 'http://localhost:5000/Eventora/signup';
    user = new BehaviorSubject<Usermodel | null>(null)
 
   login(email : string , password : string){
@@ -100,4 +101,30 @@ export class AuthService {
       errorresponse
     })
   }
+
+
+
+ signup(newUser: any) {
+  return this.http.post<any>(`${this.url3}`, newUser).pipe(
+    map((response) => {
+      if (response.token) {
+        const decoded = jwtDecode<any>(response.token);
+        const expirationDate = new Date(decoded.exp * 1000);
+        const loggedInUser = new Usermodel(
+          decoded.email,
+          decoded.id,
+          response.token,
+          expirationDate
+        );
+        this.user.next(loggedInUser);
+        localStorage.setItem("userData", JSON.stringify(loggedInUser));
+
+        return response.data.user;
+      } else {
+        throw new Error('Token not found in response');
+      }
+    }),
+    catchError(this.handleerror)
+  );
+}
 }
