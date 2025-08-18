@@ -1,0 +1,117 @@
+<section class="card">
+  <h2>Create Event</h2>
+
+  <form [formGroup]="eventform" (ngSubmit)="onsubmit()">
+    <div class="field">
+      <label>Event Name</label>
+      <input
+        type="text"
+        name="name"
+        placeholder="e.g., Music Event" 
+        formControlName="name"
+        
+      />
+      
+    
+    </div>
+        <div class="field">
+      <label>Description</label>
+      <input
+        type="text"
+        name="description"
+        placeholder="e.g., An event to watch football together" 
+        formControlName="description"
+        
+      />
+      
+    </div>
+        <div class="field">
+      <label>Date</label>
+      <input
+        type="date"
+        name="datetime"
+        placeholder="e.g., 25/5/2026" 
+        formControlName="datetime"
+        
+      />
+      
+    </div>
+        <div class="field">
+      <label>Location</label>
+      <input
+        type="text"
+        name="location"
+        placeholder="e.g., Cairo,Egypt"
+        formControlName="location" 
+        
+      />
+      
+    </div>
+        <div class="field">
+      <label>Price$</label>
+      <input
+        type="number"
+        name="price"
+        placeholder="e.g., 54" 
+        formControlName="price"
+        
+      />
+      
+    </div>
+        <div class="field">
+      <label>Total Seats</label>
+      <input
+        type="number"
+        name="totalseats"
+        placeholder="e.g., 223" 
+        formControlName="totalseats"
+        
+      />
+      
+    </div>
+    <div class="field">
+      <label>Available Seats</label>
+      <input
+        type="number"
+        name="availableseats"
+        placeholder="e.g., 223" 
+        formControlName="availableseats"
+        
+      />
+      
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <input
+        type="text"
+        name="category"
+        placeholder="e.g., Music"
+        formControlName="category" 
+        
+      />
+      
+    </div>
+    
+    
+        <div class="field">
+      <label>Image</label>
+      <input
+        id="coverImage"
+        type="file"
+        name="imageurl"
+        formControlName="imageurl"
+        accept="image/*" 
+       (change)="onFileSelected($event)" 
+        
+      />
+      
+    </div>
+    <button type="submit">
+      {{ loading ? 'Signing in...' : ' Create Event' }}
+    </button>
+
+    @if (serverError) {
+    <p class="server-error">{{ serverError }}</p>
+    }
+  </form>
+</section>
