@@ -1,75 +1,56 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventModel } from '../models/eventModel';
 import { AdminService } from '../services/admin-service';
+import { UserService } from '../services/user-service';
+import { Usermodel } from '../models/usermodel';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-profile',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink,RouterLinkActive,ReactiveFormsModule,FormsModule],
   templateUrl: './admin-profile.html',
   styleUrl: './admin-profile.css'
 })
-export class AdminProfile {
+export class AdminProfile implements OnInit {
+  private router = inject(Router)
   private adminService = inject(AdminService);
-  eventexample1: EventModel = {
-  id: "",
-  name: "admintrial ",
-  description: "An open-air music festival featuring top bands and DJs.",
-  datetime: "2026-05-25T19:00:00.000Z", // ISO date string
-  location: "Cairo International Stadium, Egypt",
-  price: 344,
-  totalseats: 1111,
-  availableseats: 1111,
-  category: "Other",
-  imageurl: "",
-  createdby: "", // user ObjectId as string
-  createdat: "2025-07-20T14:35:00.000Z",
-  bookedusers: [
-  ]
-};
+  private userService = inject(UserService)
+
+   users : any[] = []
+  myevents : EventModel[] = []
+  events : EventModel[] = []
+  
+
+ngOnInit(): void {
+  this.loadUsers();
+}
 
 
-    createevent(eventexample1 : EventModel = this.eventexample1) {
-    this.adminService.createEvent(eventexample1).subscribe({
-      next: (response) => {
-        console.log('Event created successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error creating event:', error);
-      }
-    });
-  }
-
-  updateEvent(eventId: string = "689f897174ae766e7138dc2f",index :number = 0) {
-    this.adminService.updateEvent(eventId, {name : "updated event  bt idmin"}).subscribe({
-      next: (response) => {
-        console.log('Event updated successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error updating event:', error);
-      }
-    });
-  }
 
 
-  deleteEvent(eventId: string = "689f897174ae766e7138dc2f") {
-    this.adminService.deleteEvent(eventId).subscribe({
+
+  deleteEvent(myevent : EventModel) {
+    this.adminService.deleteEvent(myevent._id).subscribe({
       next: (response) => {
         console.log('Event deleted successfully:', response);
+        alert("Event Deleted successfully")
+        this.myevents = this.myevents.filter(e => e._id !== myevent._id);
       },
       error: (error) => {
         console.error('Error deleting event:', error);
       }
     });
   } 
-  getAllusers() {
+  loadUsers() {
+    this.myevents = []
     this.adminService.getAllusers().subscribe({
-      next: (response) => {
-        console.log('All users:', response);
+      next: (users) => {
+        this.users = users; // full info
+        console.log("All users loaded:", this.users);
       },
-      error: (error) => {
-        console.error('Error fetching users:', error);
-      }
+      error: (err) => console.error(err)
     });
   }
 
@@ -83,16 +64,27 @@ export class AdminProfile {
       }
     });
   }
-  deleteuserbyId(userId: string = "688f7447211ef734ecb35cba") {
-    this.adminService.deleteuserbyid(userId).subscribe({
-      next: (response) => {
-        console.log('User details:', response);
-      },
-      error: (error) => {
-        console.error('Error fetching user:', error);
-      }
-    });
-  }
+
+
+deleteuserbyId(userId: string) {
+  console.log('Deleting user with id:', userId); // debug
+  this.adminService.deleteuserbyid(userId).subscribe({
+    next: (response) => {
+      console.log('User deleted:', response);
+      alert('User deleted successfully');
+      this.loadUsers()
+
+      // Remove from UI
+      this.users = this.users.filter(user => user._id !== userId);
+    },
+    error: (error) => {
+      console.error('Error deleting user:', error);
+      alert('Failed to delete user');
+    }
+  });
+}
+
+
   getbookedUsers(eventid:string = "688eb2a8e8f23e17ea3023c9"){
     this.adminService.getbookedusers(eventid).subscribe({
       next: (response) => {
@@ -103,6 +95,76 @@ export class AdminProfile {
       }
     });
   }
+  viewmyevents(){
+ 
+ this.users = []
+  this.userService.getMyEvents().subscribe({
+    next: (myevents) => {
+      this.myevents = myevents.events;
+      console.log("My events loaded:", this.myevents);
+    },
+    error: (error) => {
+      console.error("Error loading my events:", error);
+    }
+  });
+  }
+
+   updateEvent(myevent : EventModel) {
+    this.adminService.updateEvent(myevent._id, {name : "updated event"}).subscribe({
+      next: (response) => {
+        console.log('Event updated successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error updating event:', error);
+      }
+    });
+  }
+  selectedEventToUpdate: EventModel | null = null;
+updateForm!: FormGroup;
+
+openUpdateModal(myevent: EventModel) {
+  this.selectedEventToUpdate = myevent;
+
+  this.updateForm = new FormGroup({
+    name: new FormControl(myevent.name, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+    description: new FormControl(myevent.description, [Validators.required, Validators.minLength(10), Validators.maxLength(500)]),
+    datetime: new FormControl(myevent.datetime.split('T')[0], [Validators.required]), // prefill date
+    location: new FormControl(myevent.location, [Validators.required]),
+    price: new FormControl(myevent.price, [Validators.required, Validators.min(0)]),
+    totalseats: new FormControl(myevent.totalseats, [Validators.required, Validators.min(1)]),
+    availableseats: new FormControl(myevent.availableseats, [Validators.required, Validators.min(0)]),
+    category: new FormControl(myevent.category, [Validators.required]),
+  });
+}
+
+submitUpdate() {
+  if (!this.selectedEventToUpdate || this.updateForm.invalid) return;
+
+  // Prepare updated data
+  const updatedData = {
+    ...this.updateForm.value,
+    datetime: new Date(this.updateForm.value.datetime).toISOString(), 
+  };
+
+  console.log("Updating event:", updatedData);
+
+  this.adminService.updateEvent(this.selectedEventToUpdate._id, updatedData)
+  .subscribe({
+    next: (updatedEventFromBackend: EventModel) => {
+      alert("Event updated successfully!");
+
+      const index = this.myevents.findIndex(e => e._id === updatedEventFromBackend._id);
+      if (index !== -1) this.myevents[index] = updatedEventFromBackend;
+
+      this.selectedEventToUpdate = null; 
+    },
+    error: (err) => {
+      console.error("Error updating event:", err);
+      alert("Failed to update event.");
+    }
+  });
+
+}
 
 
 }

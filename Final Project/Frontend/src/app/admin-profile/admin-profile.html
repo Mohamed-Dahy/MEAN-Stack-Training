@@ -1,7 +1,126 @@
-<button (click)="createevent()">Create event by admin</button>
-<button (click)="updateEvent()">ubdate event by admin</button>
-<button (click)="deleteEvent()">delete event by admin</button>
-<button (click)="getAllusers()">get all user by admin</button>
-<button (click)="getuserbyId()"> get user by id</button>
-<button (click)="deleteuserbyId()">delete user by id by admin</button>
-<button (click)="getbookedUsers()">get booked users by admin</button>
+<div class="input">
+  <button class="value">
+    <a class="value" 
+   routerLink="/createevent" 
+   routerLinkActive="active" 
+   [routerLinkActiveOptions]="{exact: true}">
+   Create Event
+</a>
+  </button>
+<button class="value"  (click)="loadUsers()">
+  Get All users
+</button>
+
+  <button class="value" (click)="viewmyevents()">
+   
+    View My Events
+  </button>
+</div>
+
+
+
+
+<!-- My Events Section -->
+<div class="card-list">
+  <div class="event-card" *ngFor="let myevent of myevents">
+    <!-- Event Image -->
+    <img [src]="'http://localhost:5000/uploads/events/' + myevent.imageurl" alt="Event Photo" />
+
+    <!-- Event Content -->
+    <div class="card-content">
+      <h3 class="event-title">{{ myevent.name }}</h3>
+      <p class="event-description">{{ myevent.description }}</p>
+      <p class="event-price">💵 Price: ${{ myevent.price }}</p>
+      <p class="event-seats">🎟 Available Seats: {{ myevent.availableseats }}</p>
+
+      <!-- Actions -->
+      <div class="card-actions">
+        <!-- Update Event -->
+        <button class="update-btn btn"    (click)="openUpdateModal(myevent)" >✏️ Update Event</button>
+
+        <!-- Delete Event -->
+        <button class="delete-btn btn"(click)="deleteEvent(myevent)">🗑 Delete Event</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+<!-- Users Cards -->
+<div class="card-list">
+  <div class="user-card" *ngFor="let user of users">
+    <div class="user-img">
+      <img src="../../assets/profile.jpg" alt="{{ user.username }}">
+    </div>
+    <!-- User Info -->
+    <div class="user-info">
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>First Name:</strong> {{ user.Firstname }}</p>
+      <p><strong>Last Name:</strong> {{ user.Lastname }}</p>
+      <p><strong>Favorite Events:</strong> {{ user.favEvents?.length || 0 }}</p>
+      <p><strong>Booked Tickets:</strong> {{ user.bookedtickets?.length || 0 }}</p>
+      <p><strong>QR Codes:</strong> {{ user.myqrcodes?.length || 0 }}</p>
+
+      <!-- Delete Button -->
+      <div class="user-actions">
+        <button class="btn delete-btn" (click)="deleteuserbyId(user._id)">
+          🗑 Delete User
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Update Event Modal -->
+<div class="modal-backdrop" *ngIf="selectedEventToUpdate" (click)="selectedEventToUpdate = null"></div>
+
+<div class="modal-card" *ngIf="selectedEventToUpdate">
+  <h2>Update Event</h2>
+
+  <form [formGroup]="updateForm" (ngSubmit)="submitUpdate()">
+    <div class="field">
+      <label>Event Name</label>
+      <input type="text" formControlName="name" />
+    </div>
+
+    <div class="field">
+      <label>Description</label>
+      <input type="text" formControlName="description" />
+    </div>
+
+    <div class="field">
+      <label>Date</label>
+      <input type="date" formControlName="datetime" />
+    </div>
+
+    <div class="field">
+      <label>Location</label>
+      <input type="text" formControlName="location" />
+    </div>
+
+    <div class="field">
+      <label>Price$</label>
+      <input type="number" formControlName="price" />
+    </div>
+
+    <div class="field">
+      <label>Total Seats</label>
+      <input type="number" formControlName="totalseats" />
+    </div>
+
+    <div class="field">
+      <label>Available Seats</label>
+      <input type="number" formControlName="availableseats" />
+    </div>
+
+    <div class="field">
+      <label>Category</label>
+      <input type="text" formControlName="category" />
+    </div>
+
+    <button type="submit">Update Event</button>
+    <button type="button" (click)="selectedEventToUpdate = null">Cancel</button>
+  </form>
+</div>
