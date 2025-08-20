@@ -1,0 +1,64 @@
+<!-- Find Events Page -->
+
+<!-- Header -->
+<section class="find-events-header">
+  <h1>Find Your Event</h1>
+  <p>Browse upcoming events and filter by category</p>
+</section>
+
+<!-- Search by Category -->
+<div class="search-category">
+  <input type="text" [(ngModel)]="searchCategory" placeholder="Enter category..." class="search-input">
+  <button class="search-btn" (click)="searchByCategory()">Search</button>
+</div>
+
+<!-- Category Buttons -->
+<div class="category-buttons">
+  <button class="category-btn" (click)="loadAllEvents()">All</button>
+  <button class="category-btn" (click)="filterByCategory('Music')">Music</button>
+  <button class="category-btn" (click)="filterByCategory('Sports')">Sports</button>
+  <button class="category-btn" (click)="filterByCategory('Arts')">Arts</button>
+  <button class="category-btn" (click)="filterByCategory('Theater')">Theater</button>
+  <button class="category-btn" (click)="filterByCategory('Other')">Other</button>
+</div>
+
+<!-- Events List -->
+<div class="card-list">
+  <div class="event-card" *ngFor="let event of events">
+    <img [src]="'http://localhost:5000/uploads/events/' + event.imageurl" alt="Event Photo" />
+    <div class="card-content">
+      <h3>{{ event.name }}</h3>
+      <p>{{ event.description }}</p>
+      <p>💵 Price: ${{ event.price }}</p>
+      <p>🎟 Available Seats: {{ event.availableseats }}</p>
+
+      <div class="card-actions">
+        <button class="fav-btn" (click)="addToFav(event)">❤️ Add to Favorites</button>
+        <button class="book-btn" (click)="bookEvent(event)">🎫 Book Ticket</button>
+        <button class="see-btn" (click)="seeMore(event)">👁 See More</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for full event details -->
+<div class="modal-backdrop" *ngIf="selectedEvent" (click)="closeModal()"></div>
+<div class="modal-card" *ngIf="selectedEvent">
+  <div class="modal-header">
+    <h2>{{ selectedEvent.name }}</h2>
+    <button class="close-btn" (click)="closeModal()">✖</button>
+  </div>
+  <div class="modal-body">
+   <img [src]="'http://localhost:5000/uploads/events/' + selectedEvent.imageurl" alt="Event Photo" />
+    <p><strong>Description:</strong> {{ selectedEvent.description }}</p>
+    <p><strong>Date & Time:</strong> {{ selectedEvent.datetime | date:'fullDate' }} at {{ selectedEvent.datetime | date:'shortTime' }}</p>
+    <p><strong>Location:</strong> {{ selectedEvent.location }}</p>
+    <p><strong>Price:</strong> 💵 ${{ selectedEvent.price }}</p>
+    <p><strong>Total Seats:</strong> {{ selectedEvent.totalseats }}</p>
+    <p><strong>Available Seats:</strong> {{ selectedEvent.availableseats }}</p>
+    <p><strong>Category:</strong> {{ selectedEvent.category }}</p>
+  </div>
+  <div class="modal-actions">
+    <button class="book-btn" (click)="bookEvent(selectedEvent)">🎫 Book Ticket</button>
+  </div>
+</div>

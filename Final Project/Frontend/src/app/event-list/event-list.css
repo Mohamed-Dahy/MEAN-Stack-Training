@@ -1,0 +1,263 @@
+.find-events-header {
+  text-align: center;
+  margin: 30px 20px 20px 20px;
+  background-color: #1a1a1a; /* Dark background */
+  padding: 40px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.find-events-header h1 {
+  color: #ff5252; /* Soft red accent */
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.find-events-header p {
+  font-size: 1rem;
+  color: #e0e0e0; /* Light gray for contrast */
+  font-weight: 400;
+  line-height: 1.5;
+}
+/* Search Category Section */
+.search-category {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  width: 220px;
+}
+
+.search-input:focus {
+  border-color: #555;
+}
+
+.search-btn {
+  padding: 10px 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-btn:hover {
+  background-color: #555;
+}
+
+
+/* Buttons Container */
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+/* Category Buttons */
+.category-btn {
+  background: #d32f2f;
+  color: #fff;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.category-btn:hover {
+  background: #a02222;
+  transform: scale(1.05);
+}
+
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* wider cards */
+  gap: 25px;
+  margin: 40px auto;
+  max-width: 1300px;
+  padding: 15px;
+}
+
+.event-card {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  transition: transform 0.25s ease;
+  min-height: 420px; /* make card taller */
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+}
+
+.event-card img {
+  width: 100%;
+  height: 200px; /* a bit taller image */
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 18px;
+  flex: 1; /* push actions down */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+  gap: 10px;
+  margin-top: 15px;
+}
+.fav-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+
+.event-price,
+.event-seats {
+  font-size: 14px;
+  color: #222;
+  margin: 4px 0;
+}
+
+
+.fav-btn,
+.book-btn,
+.delete-btn,
+.see-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.fav-btn {
+  background: #fce4ec;
+  color: #d81b60;
+}
+
+.fav-btn:hover {
+  background: #f8bbd0;
+  transform: scale(1.05);
+}
+
+.book-btn {
+  background: #c62828;
+  color: white;
+}
+
+.book-btn:hover {
+  background: #a02222;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background: #e53935;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #b71c1c;
+  transform: scale(1.05);
+}
+
+.see-btn {
+  background: #1565c0;
+  color: white;
+}
+
+.see-btn:hover {
+  background: #0d47a1;
+  transform: scale(1.05);
+}
+ /* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+/* Modal card */
+.modal-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 1001;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modal-body img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-body p {
+  margin: 6px 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+  margin: 0 5px;
+}
