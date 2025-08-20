@@ -1,28 +1,63 @@
-<!-- From Uiverse.io by gohar_7145 --> 
+<!-- Category Buttons -->
+<div class="nav-image">
+  <img src="../../assets/homeeee.jpg" alt="Login">
+</div> 
+
+
 <div class="nav">
   <div class="container">
-    <div class="btn">Home</div>
-    <div class="btn">Contact</div>
-    <div class="btn">About</div>
-    <div class="btn">FAQ</div>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 400 60"
-      height="60"
-      width="400"
-      overflow="visible"
-      class="outline"
-    >
-      <rect
-        stroke-width="5"
-        fill="transparent"
-        height="60"
-        width="400"
-        y="0"
-        x="0"
-        pathLength="100"
-        class="rect"
-      ></rect>
-    </svg>
+    <div class="btn" (click)="loadAllEvents()">All</div>
+    <div class="btn" (click)="filterByCategory('Music')">Music</div>
+    <div class="btn" (click)="filterByCategory('Sports')">Sports</div>
+    <div class="btn" (click)="filterByCategory('Arts')">Arts</div>
+    <div class="btn" (click)="filterByCategory('Theater')">Theater</div>
+    <div class="btn" (click)="filterByCategory('Other')">Other</div>
   </div>
 </div>
+
+<!-- Cards Section -->
+<div class="card-list">
+  <div class="event-card" *ngFor="let event of events">
+    <img [src]="'http://localhost:5000/uploads/events/' + event.imageurl" alt="Event Photo" />
+    <div class="card-content">
+      <h3 class="event-title">{{ event.name }}</h3>
+      <p class="event-description">{{ event.description }}</p>
+      <p class="event-price">💵 Price: ${{ event.price }}</p>
+      <p class="event-seats">🎟 Available Seats: {{ event.availableseats }}</p>
+      <div class="card-actions">
+        <button class="fav-btn"  (click)="addToFav(event)">❤️ Add to Fav</button>
+        <button class="book-btn" (click)="bookEvent(event)">🎫 Book a Ticket</button>
+        <button class="see-btn" (click)="seeMore(event)">👁 See More</button>
+        <button class="delete-btn" (click)="removefromfav(event)">🗑 Delete from Fav</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal for full event details -->
+<div class="modal-backdrop" *ngIf="selectedEvent" (click)="closeModal()"></div>
+
+<div class="modal-card" *ngIf="selectedEvent">
+  <div class="modal-header">
+    <h2>{{ selectedEvent.name }}</h2>
+    <button class="close-btn" (click)="closeModal()">✖</button>
+  </div>
+  <div class="modal-body">
+    <img [src]="'http://localhost:5000/uploads/events/' + selectedEvent.imageurl" alt="Event Photo" />
+    <p><strong>Description:</strong> {{ selectedEvent.description }}</p>
+    <p><strong>Date & Time:</strong> {{ selectedEvent.datetime | date:'fullDate' }} at {{ selectedEvent.datetime | date:'shortTime' }}</p>
+    <p><strong>Location:</strong> {{ selectedEvent.location }}</p>
+    <p><strong>Price:</strong> 💵 ${{ selectedEvent.price }}</p>
+    <p><strong>Total Seats:</strong> {{ selectedEvent.totalseats }}</p>
+    <p><strong>Available Seats:</strong> {{ selectedEvent.availableseats }}</p>
+    <p><strong>Category:</strong> {{ selectedEvent.category }}</p>
+  </div>
+  <div class="modal-actions">
+    <button class="book-btn" (click)="bookEvent(selectedEvent)">🎫 Book Ticket</button>
+    <button class="fav-btn"  [disabled]="already_added"   (click)="addToFav(selectedEvent)">❤️ Add to Fav</button>
+  </div>
+</div>
+
