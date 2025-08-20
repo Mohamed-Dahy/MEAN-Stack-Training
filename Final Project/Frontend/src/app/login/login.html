@@ -40,4 +40,10 @@
     <p class="server-error">{{ serverError }}</p>
     }
   </form>
+
+  <!-- Extra section -->
+  <div class="signup-redirect">
+    <p>Don’t have an account?</p>
+    <button ><a routerLink="/signup" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" href="">Sign up</a></button>
+  </div>
 </section>

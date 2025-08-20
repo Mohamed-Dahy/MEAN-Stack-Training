@@ -26,7 +26,7 @@ input {
   outline: none;
 }
 input:focus {
-  border-color: #6366f1;
+  border-color: #802f3a;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 button {
@@ -34,7 +34,7 @@ button {
   padding: 0.7rem;
   border: none;
   border-radius: 12px;
-  background: #6366f1;
+  background: #886464;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -52,4 +52,30 @@ button[disabled] {
   color: #b91c1c;
   font-size: 0.9rem;
   text-align: center;
+}
+
+.signup-redirect {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.signup-redirect p {
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  color: #555;
+}
+
+.signup-redirect button {
+  background: transparent;
+  border: 1px solid #cd9f9f;
+  color: #802f3a;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.signup-redirect button:hover {
+  background: #b5888e;
+  color: white;
 }
