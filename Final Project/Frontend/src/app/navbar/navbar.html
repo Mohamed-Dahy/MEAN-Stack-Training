@@ -2,15 +2,22 @@
     <div class="navdiv">
         <div class="logo"><a href="#">Eventora</a></div>
         <ul>
-			 <li class="search-container">
-                <input type="text" class="search-input" placeholder="Search by category...">
-                <button class="search-btn">Search</button>
-            </li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-            <button><a href="#">SignIn</a></button>
-            <button><a href="#">SignUp</a></button>
+
+            <li><a routerLink="/menu" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+            <li  *ngIf="!isAdmin"><a routerLink="/userprofile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Profile</a></li>  
+            <li  *ngIf="isAdmin"><a routerLink="/adminprofile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Admin Dashboard</a></li>                      
+            <li><a routerLink="/events" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Find Event</a></li>
+            <li><a routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a></li>
+            <button><a routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">SignIn</a></button>
+            <button><a routerLink="/signup" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">SignUp</a></button>
+            <button *ngIf="isLoggedIn"><a routerLink="/menu"  (click)="logout()">Log Out</a></button>
+
         </ul>
+        
     </div>
 </nav>
+
+ 
+
+
+
