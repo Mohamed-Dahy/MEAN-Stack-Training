@@ -26,7 +26,7 @@ input {
   outline: none;
 }
 input:focus {
-  border-color: #6366f1;
+  border-color: #803d3d;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 button {
@@ -34,7 +34,7 @@ button {
   padding: 0.7rem;
   border: none;
   border-radius: 12px;
-  background: #6366f1;
+  background: #923131;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
