@@ -1,13 +1,208 @@
-<!-- <button (click)="addEventToFav()">Add to favevents</button>
-<button (click)="removeEventFromFav()">removeevent</button>
+<div class="input">
+  <button class="value">
+    <a class="value" 
+   routerLink="/userprofile/createevent" 
+   routerLinkActive="active" 
+   [routerLinkActiveOptions]="{exact: true}">
+   Create Event
+</a>
+  </button>
+<button class="value" (click)="viewFavorites()">
+  View Favourite Events
+</button>
 
-<button (click)="bookEvent()">Bookevent</button>
+  <button class="value" (click)="viewtickets()">
+    
+    View Booked Tickets
+  </button>
+  <button class="value" (click)="viewmyevents()">
+   
+    View My Events
+  </button>
+</div>
 
-<button (click)="cancelBooking()">cancelbooking</button>
 
-<button (click)="createevent()">Create Event</button>
+<!-- Cards Section -->
+<div class="card-list">
+  <div class="event-card" *ngFor="let event of events">
+    <img [src]="'http://localhost:5000/uploads/events/' + event.imageurl" alt="Event Photo" />
+    <div class="card-content">
+      <h3 class="event-title">{{ event.name }}</h3>
+      <p class="event-description">{{ event.description }}</p>
+      <p class="event-price">💵 Price: ${{ event.price }}</p>
+      <p class="event-seats">🎟 Available Seats: {{ event.availableseats }}</p>
+      
+      <div class="card-actions">
 
-<button (click)="updateEvent()">Updateevent</button>
+        <!-- Delete from Fav -->
+        <button 
+          class="delete-btn" 
+          (click)="removeFromFav(event)" 
+          >🗑 Delete from Fav
+        </button>
 
-<button (click)="deleteEvent()">Deleteevent</button>
- -->
+        <!-- Book -->
+        <button class="book-btn" (click)="bookEvent(event)">🎫 Book a Ticket</button>
+
+        <!-- See More -->
+        <button class="see-btn" (click)="seeMore(event)">👁 See More</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="ticket-card" *ngFor="let ticket of tickets">
+  <!-- Image + QR in left container -->
+  <div class="ticket-img">
+    <img src="../../assets/istockphoto-1500283713-612x612.jpg" alt="{{ticket.EventName}}" />
+    <div class="ticket-qrcode" *ngIf="ticket.qrcode">
+      <img [src]="ticket.qrcode" alt="QR Code for {{ticket.EventName}}" />
+    </div>
+  </div>
+
+  <!-- Content on the right -->
+  <div class="ticket-info">
+    <h3 class="ticket-title">{{ ticket.EventName }}</h3>
+    <p class="ticket-place">📍 {{ ticket.Place }}</p>
+    <p class="ticket-date">📅 {{ ticket.Date | date:'medium' }}</p>
+    <p class="ticket-price">💵 {{ ticket.EventPrice | currency:'USD' }}</p>
+
+    <div class="ticket-actions">
+      <button class="btn details-btn" (click)="seeMoreee(ticket)">👁 View more Details</button>
+      <button class="btn cancel-btn" (click)="cancelBooking(ticket)">❌ Cancel booking</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- My Events Section -->
+<div class="card-list">
+  <div class="event-card" *ngFor="let myevent of myevents">
+    <!-- Event Image -->
+   <img [src]="'http://localhost:5000/uploads/events/' + myevent.imageurl" alt="Event Photo" />
+
+    <!-- Event Content -->
+    <div class="card-content">
+      <h3 class="event-title">{{ myevent.name }}</h3>
+      <p class="event-description">{{ myevent.description }}</p>
+      <p class="event-price">💵 Price: ${{ myevent.price }}</p>
+      <p class="event-seats">🎟 Available Seats: {{ myevent.availableseats }}</p>
+
+      <!-- Actions -->
+      <div class="card-actions">
+        <!-- Update Event -->
+        <button class="update-btn btn" (click)="openUpdateModal(myevent)">✏️ Update Event</button>
+
+
+        <!-- Delete Event -->
+        <button class="delete-btn btn" (click)="deleteEvent(myevent)">🗑 Delete Event</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal for full event details -->
+<div class="modal-backdrop" *ngIf="selectedEvent" (click)="closeModal()"></div>
+
+<div class="modal-card" *ngIf="selectedEvent">
+  <div class="modal-header">
+    <h2>{{ selectedEvent.name }}</h2>
+    <button class="close-btn" (click)="closeModal()">✖</button>
+  </div>
+  <div class="modal-body">
+   <img [src]="'http://localhost:5000/uploads/events/' + selectedEvent.imageurl" alt="Event Photo" />
+    <p><strong>Description:</strong> {{ selectedEvent.description }}</p>
+    <p><strong>Date & Time:</strong> {{ selectedEvent.datetime | date:'fullDate' }} at {{ selectedEvent.datetime | date:'shortTime' }}</p>
+    <p><strong>Location:</strong> {{ selectedEvent.location }}</p>
+    <p><strong>Price:</strong> 💵 ${{ selectedEvent.price }}</p>
+    <p><strong>Total Seats:</strong> {{ selectedEvent.totalseats }}</p>
+    <p><strong>Available Seats:</strong> {{ selectedEvent.availableseats }}</p>
+    <p><strong>Category:</strong> {{ selectedEvent.category }}</p>
+  </div>
+  <div class="modal-actions">
+    <button class="book-btn" (click)="bookEvent(selectedEvent)">🎫 Book Ticket</button>
+
+  </div>
+</div>
+
+
+<!-- Modal for full ticket details -->
+<div class="modal-backdrop" *ngIf="selectedticket" (click)="closeTicketModal()"></div>
+
+<div class="modal-card" *ngIf="selectedticket">
+  <div class="modal-header">
+    <h2>{{ selectedticket.EventName }}</h2>
+    <button class="close-btn" (click)="closeTicketModal()">✖</button>
+  </div>
+  <div class="modal-body">
+    <img src="../../assets/istockphoto-1500283713-612x612.jpg" alt="Ticket Image">
+    <p><strong>Event Name:</strong> {{ selectedticket.EventName }}</p>
+    <p><strong>Date:</strong> {{ selectedticket.Date | date:'fullDate' }} at {{ selectedticket.Date | date:'shortTime' }}</p>
+    <p><strong>Place:</strong> {{ selectedticket.Place }}</p>
+    <p><strong>Price:</strong> 💵 ${{ selectedticket.EventPrice }}</p>
+    <p *ngIf="selectedticket.qrcode"><strong>QR Code:</strong></p>
+    <img *ngIf="selectedticket.qrcode" [src]="selectedticket.qrcode" alt="QR Code" class="ticket-qrcode">
+  </div>
+  <div class="modal-actions">
+    <button class="cancel-btn" (click)="cancelBooking(selectedticket)">❌ Cancel Booking</button>
+  </div>
+</div>
+
+
+<!-- Update Event Modal -->
+<div class="modal-backdrop" *ngIf="selectedEventToUpdate" (click)="selectedEventToUpdate = null"></div>
+
+<div class="modal-card" *ngIf="selectedEventToUpdate">
+  <h2>Update Event</h2>
+
+  <form [formGroup]="updateForm" (ngSubmit)="submitUpdate()">
+    <div class="field">
+      <label>Event Name</label>
+      <input type="text" formControlName="name" />
+    </div>
+
+    <div class="field">
+      <label>Description</label>
+      <input type="text" formControlName="description" />
+    </div>
+
+    <div class="field">
+      <label>Date</label>
+      <input type="date" formControlName="datetime" />
+    </div>
+
+    <div class="field">
+      <label>Location</label>
+      <input type="text" formControlName="location" />
+    </div>
+
+    <div class="field">
+      <label>Price$</label>
+      <input type="number" formControlName="price" />
+    </div>
+
+    <div class="field">
+      <label>Total Seats</label>
+      <input type="number" formControlName="totalseats" />
+    </div>
+
+    <div class="field">
+      <label>Available Seats</label>
+      <input type="number" formControlName="availableseats" />
+    </div>
+
+    <div class="field">
+      <label>Category</label>
+      <input type="text" formControlName="category" />
+    </div>
+
+    <button type="submit">Update Event</button>
+    <button type="button" (click)="selectedEventToUpdate = null">Cancel</button>
+  </form>
+</div>
