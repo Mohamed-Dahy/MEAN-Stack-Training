@@ -36,7 +36,7 @@ const getEventById = async (req, res) => {
 
 const searchbycategory = async (req,res)=>{
 try{
-  const {category} = req.body;
+  const {category} = req.params;
   if (!category) {
     return res.status(400).json({ status: "Fail", message: "Category is required" });
   }

@@ -62,7 +62,8 @@ if (password !== confirmpassword) {
 
 
 const login = async (req, res) => {
-  const {email, password } = req.body;
+  try{
+const {email, password } = req.body;
 
   if (!email || !password) {
     return res
@@ -85,16 +86,21 @@ const login = async (req, res) => {
       message: "User not exists",
     });
   }
-  const token = JWT.sign(
-    { id: existingUser._id, name: existingUser.name },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRATION }
-  );
+  existingUser.password = undefined;
+   const token = JWT.sign(
+     { id: existingUser._id, email ,name: existingUser.name , expiresIn: process.env.JWT_EXPIRATION },
+     process.env.JWT_SECRET,
+     { expiresIn: process.env.JWT_EXPIRATION }
+   );
   return res.status(200).json({
     status: "success",
     token: token,
     data: { user: existingUser },
   });
+  }catch(error){
+    res.status(401).json({ status: "fail", message: error.message });
+  }
+  
 };
 
 
@@ -122,6 +128,10 @@ const protectRoutes = async (req, res, next) => {
 
 const getAllUsers = async (req, res) => {
     try{
+      const admin = await Admin.findById(req.userId);
+      if (!admin) {
+        return res.status(404).json({ status: "Fail", message: "Admin not found" });
+      }
         const users = await User.find({},{password:  false ,_v: false});
         res.status(200).json({
             status: "Success", length: users.length, data: { users }
@@ -136,6 +146,11 @@ const deleteuserbyid = async (req,res) => {
   }
   
   try{
+    const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ status: "Fail", message: "Admin not found" });
+    } 
+
     const user = await User.findByIdAndDelete(req.params.id);
 
     if(!user){
@@ -155,6 +170,10 @@ const getuserbyid = async (req, res) => {
     return res.status(400).json({ status: "Fail", message: "Invalid ID" });
   }
   try {
+    const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ status: "Fail", message: "Admin not found" });
+    }
     const user = await User.findById(req.params.id, { password: false, _v: false });
     if (!user) {
       return res.status(404).json({ status: "Fail", message: "User is not found" });
@@ -170,6 +189,10 @@ const getuserbyid = async (req, res) => {
 
 const createEvent = async (req, res) => {
   try {
+    const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ status: "Fail", message: "Admin not found" });
+    }
     const newEvent = await Event.create(req.body);
     newEvent.createdby = req.userId; // Assuming you want to set the creator of the event
     await newEvent.save();
@@ -189,6 +212,10 @@ const updateEvent = async (req, res) => {
   }
 
   try {
+    const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ status: "Fail", message: "Admin not found" });
+    }
     const updatedEvent = await Event.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -209,6 +236,10 @@ const deleteEvent = async (req, res) => {
   }
 
   try {
+     const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ status: "Fail", message: "Admin not found" });
+    }
     const deletedEvent = await Event.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
@@ -221,9 +252,14 @@ const deleteEvent = async (req, res) => {
 };
 // see every user who booked an event
 const getBookedUsers = async (req, res) => {
-  const {eventid} = req.body;
+  
   try {
-    const event = await Event.findById(eventid);
+     const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ status: "Fail", message: "Admin not found" });
+    }
+
+    const event = await Event.findById(req.params.id);
     if (!event) {
       return res.status(404).json({ status: "Fail", message: "Event not found" });
     }
