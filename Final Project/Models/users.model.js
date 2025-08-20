@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 
 const userSchema = new mongoose.Schema({
-  Fisrtname:{
+  Firstname:{
     type: String,
     required: [true, "First name is required"],
     trim: true,
@@ -16,7 +16,15 @@ const userSchema = new mongoose.Schema({
     required: [true, "Last name is required"],
     trim: true,
     maxlength: [50, "Last name cannot exceed 50 characters"],
-    minlength: [2, "Last name must be at least 2 characters"]},
+    minlength: [2, "Last name must be at least 2 characters"]}, 
+    username: {
+    type: String,
+    required: [true, "Username is required"],
+    unique: true,
+    trim: true,
+    maxlength: [30, "Username cannot exceed 30 characters"],
+    minlength: [3, "Username must be at least 3 characters"]
+    },
 
     email: {
     type: String,
@@ -31,16 +39,10 @@ const userSchema = new mongoose.Schema({
     minlength: [8, "Password must be at least 8 characters"]
     },
 
-    username: {
-    type: String,
-    required: [true, "Username is required"],
-    unique: true,
-    trim: true,
-    maxlength: [30, "Username cannot exceed 30 characters"],
-    minlength: [3, "Username must be at least 3 characters"]
-    },
+   
     photo: { type: String, default:'uploads/profile.jpg' },
     favEvents :[{type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
+    MyEvents :[{type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
     bookedtickets :[{type: mongoose.Schema.Types.ObjectId, ref: "Ticket"}],
     myqrcodes: [{ type: String}],
 
