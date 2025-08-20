@@ -1,0 +1,13 @@
+import { FormControl, ValidationErrors } from "@angular/forms";
+
+const CATEGORIES = ["Music", "Sports", "Arts", "Theater", "Comedy", "Other"];
+
+/*
+ enum: ["english", "arabic", "spanish", "french", "hindi", "chinese", "japanese", "korean", "other"],
+lowercase: true,
+*/
+
+export function CategoryValidator(control: FormControl): ValidationErrors | null {
+  if (!control.value) return null;
+  return CATEGORIES.includes(control.value.toLowerCase()) ? null : { invalidcategory : true };
+}
