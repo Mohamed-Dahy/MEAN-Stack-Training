@@ -26,9 +26,11 @@ export class AuthService {
             response.token,
             expirationdate
           )
+          const role = 'user';
 
           this.user.next(loggeduser);
           localStorage.setItem('userdata', JSON.stringify(loggeduser));
+          localStorage.setItem('role',role)
           return response.data.user;
         }else {
           throw new Error("token not found");
@@ -51,9 +53,11 @@ export class AuthService {
             response.token,
             expirationdate
           );
+          const role = 'admin'
 
           this.user.next(loggeduser);
           localStorage.setItem('userdata', JSON.stringify(loggeduser));
+          localStorage.setItem('role',role)
           return response.data.user;
         } else {
           throw new Error("token not found");
@@ -83,6 +87,7 @@ export class AuthService {
   logout(){
     this.user.next(null);
     localStorage.removeItem('userdata');
+    localStorage.removeItem('role');
   }
 
   
@@ -117,7 +122,7 @@ export class AuthService {
           expirationDate
         );
         this.user.next(loggedInUser);
-        localStorage.setItem("userData", JSON.stringify(loggedInUser));
+        localStorage.setItem("userdata", JSON.stringify(loggedInUser));
 
         return response.data.user;
       } else {

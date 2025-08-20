@@ -13,22 +13,39 @@ export class UserService {
   private authservice = inject(AuthService)
   private URL = 'http://localhost:5000/Eventora/userprofile'
   
-  addEventToFav(eventId: string): Observable<string[]> {
+addEventToFav(eventId: string): Observable<string[]> {
+  return this.authservice.user.pipe(
+    take(1),
+    exhaustMap((user) => {
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${user?.token}`,
+      });
+
+      return this.http
+        .post<any>(
+          `${this.URL}/addtofavoriteEvents/${eventId}`,
+          {}, // body should be empty
+          { headers } // options
+        )
+        .pipe(map((response) => response.data.favEvents));
+    })
+  );
+}
+  updateUserinfo(updatedData: FormData): Observable<any> {
     return this.authservice.user.pipe(
       take(1),
       exhaustMap((user) => {
         const headers = new HttpHeaders({
           Authorization: `Bearer ${user?.token}`,
         });
-        if (!user) {
-          throw new Error('User not authenticated');
-        }
-        return this.http
-          .post<any>(`${this.URL}/addtofavoriteEvents`, { eventId }, { headers })
-          .pipe(map((response) => response.data.favEvents));
+        return this.http.put<any>(`${this.URL}/updateinfo`, updatedData, { headers }).pipe(
+          map((response) => response.data.user)
+        );
       })
     );
   }
+
+
 
 
   removeEventFromFav(eventid: string): Observable<string[]> {
@@ -131,5 +148,69 @@ export class UserService {
         })
       );
     }
+
+
+getfavourites() {
+  return this.authservice.user.pipe(
+    take(1),
+    exhaustMap((user) => {
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${user.token}`,
+      });
+
+      return this.http
+        .get<any>(`${this.URL}/favourites`, { headers })
+        .pipe(
+          map((response) => response.data) // ✅ just take response.data (the favEvents array)
+        );
+    })
+  );
+}
+
+
+getbookedtickets(){
+  return this.authservice.user.pipe(
+     take(1),
+    exhaustMap((user) => {
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${user.token}`,
+      });
+
+      return this.http
+        .get<any>(`${this.URL}/tickets`, { headers })
+        .pipe(
+          map((response) => response.data) // ✅ just take response.data (the favEvents array)
+        );}
+  ))
+}
+
+getMyEvents(){
+  return this.authservice.user.pipe(
+     take(1),
+    exhaustMap((user) => {
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${user.token}`,
+      });
+
+      return this.http
+        .get<any>(`${this.URL}/myevents`, { headers })
+        .pipe(
+          map((response) => response.data) 
+        );}
+  ))
+}
+
 }
 
