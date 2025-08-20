@@ -5,13 +5,13 @@ const router = express.Router();
 // Route: /events
 router
   .route("/events")
-  .get(eventControllers.getAllEvents);//worked
+  .get(eventControllers.getAllEvents);//worked // frontend done // gui 
 
 // Route: /events/:id
 router
   .route("/events/:id")
-  .get(eventControllers.getEventById) //worked
+  .get(eventControllers.getEventById) //worked //frontend done // gui
 
 
-  router.get("/category",eventControllers.searchbycategory);//worked
+  router.get("/category/:category",eventControllers.searchbycategory);//worked // frontend done // gui
 module.exports = router;
