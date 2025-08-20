@@ -11,6 +11,7 @@
         required
         minlength="3"
         #nameRef="ngModel"
+          (ngModelChange)="onInputChange()"
       />
       @if (nameRef.invalid && nameRef.touched) {
       <p class="error">Name is required with minimum length 3</p>
@@ -25,6 +26,7 @@
         required
         minlength="3"
         #nameRef="ngModel"
+          (ngModelChange)="onInputChange()"
       />
       @if (nameRef.invalid && nameRef.touched) {
       <p class="error">Name is required with minimum length 3</p>
@@ -39,6 +41,7 @@
         required
         minlength="3"
         #nameRef="ngModel"
+          (ngModelChange)="onInputChange()"
       />
       @if (nameRef.invalid && nameRef.touched) {
       <p class="error">Name is required with minimum length 3</p>
@@ -54,6 +57,7 @@
         required
         email
         #emailRef="ngModel"
+          (ngModelChange)="onInputChange()"
       />
       @if (emailRef.invalid && emailRef.touched) {
       <p class="error">Valid email is required</p>
@@ -69,6 +73,7 @@
         required
         minlength="8"
         #passwordRef="ngModel"
+          (ngModelChange)="onInputChange()"
       />
       @if (passwordRef.invalid && passwordRef.touched) {
       <p class="error">Password is required with minimum length 8</p>
@@ -84,6 +89,7 @@
         required
         minlength="8"
         #confirmRef="ngModel"
+          (ngModelChange)="onInputChange()"
       />
       @if (confirmRef.invalid && confirmRef.touched) {
       <p class="error">Confirm your password</p>
