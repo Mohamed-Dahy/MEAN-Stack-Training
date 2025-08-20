@@ -1,4 +1,30 @@
 const multer = require("multer");
+const path = require("path");
+
+
+// User image storage configuration
+const userStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/users");
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+cb(null, `user-${Date.now()}${ext}`);
+
+  },
+});
+
+
+// Movie cover image storage configuration
+const eventStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/events");
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `event-${Date.now()}${ext}`);
+  },
+});
 
 const discStorage = multer.diskStorage({
     destination : function(req,file,cb){
@@ -23,6 +49,8 @@ const fileFilter = (req,file,cb)=>{
     }
 }
 const upload = multer({storage:discStorage , fileFilter : fileFilter});
+const uploadUser = multer({ storage: userStorage, fileFilter });
+const uploadEvent = multer({ storage: eventStorage, fileFilter });
 
 
-module.exports = upload;
+module.exports = {upload ,uploadUser,uploadEvent} ;
